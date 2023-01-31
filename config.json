@@ -1,0 +1,19 @@
+{
+  "description": "The configuration for the POC reference implementation",
+  "canShare": {
+    "fhirServer" : {
+      "url" : "http://localhost:9199/baseR4",
+      "description" : "The base url of the FHIR server"
+    },
+    "requestEndPoint" : {
+      "url": "http://localhost:1880/acceptRequest",
+      "description" : "The endpoint where the requester sends the request bundle (SR, SQ etc"
+    }
+  },
+  "lab": {
+    "srEndpoint" : {
+      "url": "localhost:9100/lab/ServiceRequest",
+      "description": "The endpoint to send SR notifications to the lab"
+    }
+  }
+}
