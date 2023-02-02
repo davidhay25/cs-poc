@@ -9,18 +9,18 @@ const requesterModule = require("./serverModuleRequester.js")
 const labModule = require("./serverModuleLab.js")
 
 
-
+let config = require("./config.json")
 
 let express = require('express');
 let app = express();
 app.use(bodyParser.json({limit:'50mb',type:['application/fhir+json','application/json']}))
 
-requesterModule.setup(app,null)
-labModule.setup(app,null)
+requesterModule.setup(app)
+labModule.setup(app)
 
 
 
-let MongoClient = require('mongodb').MongoClient;
+//let MongoClient = require('mongodb').MongoClient;
 /*
 MongoClient.connect('mongodb://127.0.0.1:27017/clinfhir', function(err, ldb) {
     if(err) {
@@ -36,6 +36,12 @@ MongoClient.connect('mongodb://127.0.0.1:27017/clinfhir', function(err, ldb) {
 });
 
 */
+
+//common calls (not specifically related to requester or lab. ?move to separate module
+app.get('/config', async function(req,res){
+    res.json(config)
+})
+
 
 server = http.createServer(app).listen(port);
 console.log("Server listening on port " + port)

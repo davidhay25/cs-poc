@@ -14,6 +14,10 @@
     "srEndpoint" : {
       "url": "localhost:9100/lab/ServiceRequest",
       "description": "The endpoint to send SR notifications to the lab"
+    },
+    "reportEndpoint" : {
+      "url": "http://localhost:1880/acceptReport",
+      "description" : "The endpoint where the lab sends the report bundle"
     }
   }
 }

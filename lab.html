@@ -9,11 +9,11 @@
     <script src="js/libs/angular.min1-5.js"></script>
     <script src="js/libs/ui-bootstrap-tpls-2.0.1.min.js"></script>
 
-
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/common.css"/>
 
     <script>
-        angular.module("pocApp",[]).config(function($locationProvider) {
+        angular.module("pocApp",['ui.bootstrap']).config(function($locationProvider) {
 
             // enable html5Mode for pushstate ('#'-less URLs)
             $locationProvider.html5Mode(true);
@@ -24,18 +24,12 @@
     </script>
 
 
+
+
     <script src="js/labCtrl.js"></script>
     <script src="js/labSvc.js"></script>
+    <script src="js/commonSvc.js"></script>
 
-
-
-    <style>
-        #graph {
-            width: 100%;
-            height: 550px;
-            border: 1px solid lightgray;
-        }
-    </style>
 
 
 
@@ -49,7 +43,7 @@
             <div class="col-md-5 col-sm-5">
                     <span>
                         <a class="navbar-brand" href="#">
-                            Lab
+                            Lab interface
                         </a>
                     </span>
 
@@ -77,13 +71,13 @@
 
             <div class="col-md-3 col-sm-3">
                 <div class="navbar-text">
-                    <select class="form-control" ng-model = "input.selectedPatient"
-                            ng-change="selectPatient()"
-                            ng-options = "item.display for item in allPatients"></select>
+                    <select class="form-control" ng-model = "input.selectedPractitioner"
+                            ng-change="selectPractitioner()"
+                            ng-options = "item.display for item in allPractitioners"></select>
                 </div>
                 <div ng-show="reviewMode">
                     <div class="navbar-text">
-                    <button class="btn btn-primary pull-right" ng-click="prepop()">Pre-populate</button>
+
                     </div>
                 </div>
 
@@ -91,8 +85,66 @@
         </div>
     </nav>
 
+    <div class="row">
+        <div class="col-md-3">
+            <h3>Current active requests</h3>
+            <ul class="list-group" ng-repeat="request in activeRequests">
+                <li ng-class="{'list-group-item':true,listItemSelected: request == selectedRequest}"
+                    ng-click = "selectRequest(request)">
+                    {{getPatientName(request.Pat)}}
+                </li>
+            </ul>
+        </div>
 
-Lab
+        <div class="col-md-5">
+            <br/>
+
+
+            <uib-tabset>
+                <uib-tab heading="Text">
+
+                    <ng-include src="'/includes/QRdisplay.html'"></ng-include>
+
+                </uib-tab>
+
+                <uib-tab heading = "QR">
+                    <pre>{{selectedQR | json}}</pre>
+                </uib-tab>
+
+                <uib-tab heading="Json">
+                    <pre>{{selectedRequest | json}}</pre>
+
+                </uib-tab>
+
+            </uib-tabset>
+
+        </div>
+
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-8">
+                    <select ng-model="selectedTemplate" class="form-control"
+                            placeholder="Select form"
+                            ng-change="selectQ(selectedTemplate)"
+                            ng-options = "item.display for item in templates">
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <button class="btn btn-primary"
+                            ng-show="selectedRequest && selectedQ"
+                            ng-click="submitReport()">Submit report</button>
+                </div>
+            </div>
+
+            <ng-include src="'/includes/formDisplay.html'"></ng-include>
+
+        </div>
+
+
+
+    </div>
+
+
 
 </div>
 

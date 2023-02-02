@@ -1,0 +1,20 @@
+<div>
+    <div ng-repeat="item in selectedQR.item">
+        <strong>{{item.text}}</strong>
+        <div ng-repeat = "child in item.item">
+            <div class="row">
+                <div class="col-md-3" >
+                    <div style="padding-left: 8px">{{child.text}}</div>
+                </div>
+                <div class="col-md-9">
+                    <div ng-repeat = "ans in child.answer">
+                        {{ans.valueString}}
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <br/>
+    </div>
+</div>

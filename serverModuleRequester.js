@@ -9,6 +9,23 @@ function setup(app,inDb) {
 
     db = inDb
 
+    //the request templates
+    app.get('/requester/templates',async function(req,res){
+
+        let qry = config.canShare.fhirServer.url + "/Questionnaire?context=request"
+        try {
+            let response = await axios.get(qry)
+            let bundle = response.data
+            res.json(bundle)
+        } catch (ex) {
+            res.status(500).json(ex)
+        }
+
+
+
+    })
+
+
     //send a request from the requester UI to the IE. Assume that this is a bundle, so just send it
     app.post('/requester/makerequest', async function(req,res){
         if (showLog) {

@@ -11,9 +11,9 @@
 
 
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
-
+    <link rel="stylesheet" type="text/css" href="css/common.css"/>
     <script>
-        angular.module("pocApp",[]).config(function($locationProvider) {
+        angular.module("pocApp",['ui.bootstrap']).config(function($locationProvider) {
 
             // enable html5Mode for pushstate ('#'-less URLs)
             $locationProvider.html5Mode(true);
@@ -27,7 +27,7 @@
     <script src="js/requesterCtrl.js"></script>
     <script src="js/requesterSvc.js"></script>
 
-
+    <script src="js/commonSvc.js"></script>
 
 
 
@@ -79,15 +79,82 @@
         </div>
     </nav>
 
+        <div class="row">
+            <div class="col-md-2">
+                List of patients
+                <ul class="list-group">
+                    <li ng-class="{'list-group-item':true,listItemSelected:selectedPatient == entry.resource}" ng-repeat = "entry in allPatients.entry"
+                        style="cursor: pointer"
+                        ng-click="selectPatient(entry.resource)">
+                        {{commonSvc.getPatientName(entry.resource)}}
+                    </li>
+                </ul>
 
-        <button class="brm btn-danger" ng-click="sendRequest()">Send request</button>
+
+            </div>
+            <div class="col-md-5" ng-show="selectedPatient">
+
+                <div class="row">
+                    <div class="col-md-8">
+                        <select ng-model="selectedTemplate" class="form-control"
+                                placeholder="Select form"
+                                ng-change="selectQ(selectedTemplate)"
+                                ng-options = "item.display for item in templates">
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-primary" ng-click="submitRequest()">Send request</button>
+                    </div>
+                </div>
+
+                <pre ng-show="oo">{{oo | json}}</pre>
+
+
+                <div ng-hide="oo">
+                    <ng-include src="'/includes/formDisplay.html'"></ng-include>
+                </div>
+
+            </div>
+            <div class="col-md-5" ng-show="selectedPatient">
+
+                <uib-tabset>
+                    <uib-tab heading="Text">
+                        <ng-include src="'/includes/QRdisplay.html'"></ng-include>
+                    </uib-tab>
+                    <uib-tab heading="QR">
+                        <pre>{{QR | json}}</pre>
+                    </uib-tab>
+                    <uib-tab heading="SR">
+                        <pre>{{SR | json}}</pre>
+                    </uib-tab>
+                    <uib-tab heading="Bundle">
+                        <pre>{{bundle | json}}</pre>
+                    </uib-tab>
+                </uib-tabset>
+
+
+                <!--
+                <button class="btn btn-danger pull-right" ng-click="sendRequest()">Send dummy request</button>
+
+-->
+
+
+
+
+
+            </div>
+        </div>
+
+
+
+
 
         <div class="row">
             <div class="col-md-4">
-                <pre>{{oo | json}}</pre>
+
             </div>
             <div class="col-md-4">
-                <pre>{{bundle | json}}</pre>
+
             </div>
             <div class="col-md-4">
 
