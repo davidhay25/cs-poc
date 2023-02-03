@@ -7,22 +7,19 @@ angular.module("pocApp")
             $scope.answer = {}      //will have the form data
 
             //load the config. We need this for the fullUrl in the request bundle and server interactions
-            $http.get("/config").then(
-                function(data) {
-                    $scope.config = data.data
-
-                    //load all the patients
-                    let url = `${$scope.config.canShare.fhirServer.url}/Patient`
-                    $http.get(url).then(
-                        function (data) {
-                            $scope.allPatients = data.data
+            commonSvc.init().then(
+                function(data){
+                    $scope.config = data
+                    commonSvc.getAllPatients().then(
+                        function (patients) {
+                            $scope.allPatients = patients
                         }
                     )
 
+            })
 
-                }
 
-            )
+
 
             //load the list of possible report templates (questionnaires)
             $http.get("/requester/templates").then(
@@ -66,6 +63,56 @@ angular.module("pocApp")
                     patient.identifier = [{system:"http://canshare.co.nz/identifier/bundle",value:new Date().toISOString()}]
                 }
                 $scope.selectedPatient = patient
+                let identifierQuery = `${patient.identifier[0].system}|${patient.identifier[0].value}`
+
+                //load ServiceRequests. Go straight to hapi server
+                let url = `${$scope.config.canShare.fhirServer.url}/ServiceRequest?subject.identifier=${identifierQuery}`
+                $http.get(url).then(
+                    function (data) {
+                        $scope.allSRonePatient = data.data
+                        console.log($scope.allSRonePatient)
+                    }
+                )
+
+
+
+            }
+
+            //a historical SR is selected
+            $scope.selectHistoricalSR = function(SR){
+                $scope.selectedSR = SR
+
+                commonSvc.retrieveSRandDetails(SR).then(
+                    function(vo) {
+                        console.log(vo)
+                        $scope.selectedQR = vo.QR           //the QR associated with this SR
+                        $scope.selectedDRobject = vo.DRobject       //the DR and associated observations associated with this R (if any)
+                    }
+                )
+
+/*
+                //retrieve the referenced QR
+                let QRReference
+                SR.supportingInfo.forEach(function (si) {
+                    if (si.reference.startsWith("QuestionnaireResponse")) {
+                        QRReference = si.reference
+
+                    }
+                })
+
+                if (QRReference) {
+                    let url = `${$scope.config.canShare.fhirServer.url}/${QRReference}`
+                    $http.get(url).then(
+                        function (data) {
+                            $scope.selectedQR = data.data
+                    })
+                }
+
+                //retrieve
+
+*/
+
+
             }
 
             //select the request form
@@ -151,7 +198,6 @@ angular.module("pocApp")
                 let identifierString = `${resource.identifier[0].system}|${resource.identifier[0].value}`
                 entry.request.url = `${resource.resourceType}?identifier=${identifierString}`
                 bundle.entry.push(entry)
-
             }
 
 
@@ -178,6 +224,9 @@ angular.module("pocApp")
 
             function makeSR() {
                 let sr = {resourceType:"ServiceRequest",id:createUUID(),status:"active",intent:"order"}
+                sr.authoredOn = new Date().toISOString()
+                sr.code = {text:"Histology request"}
+                sr.category = [{text:"CS order"}]
                 sr.subject = {reference:`urn:uuid:${$scope.selectedPatient.id}`}
                 sr.identifier = [{system:"http://canshare.co.nz/identifier",value: new Date().toISOString()}]
                 sr.supportingInfo = [{reference:"urn:uuid:"+$scope.QR.id}]

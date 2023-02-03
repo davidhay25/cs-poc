@@ -1,3 +1,5 @@
+<!-- todo - create directive to display QR-->
+
 <div>
     <div ng-repeat="item in selectedQR.item">
         <strong>{{item.text}}</strong>
@@ -17,4 +19,5 @@
         </div>
         <br/>
     </div>
+    <div ng-show="selectedQR"><em>Template: {{selectedQR.questionnaire}}</em></div>
 </div>

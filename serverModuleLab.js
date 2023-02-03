@@ -147,8 +147,9 @@ function setup(app) {
 
         //send the bundle to the server
         let url = config.lab.reportEndpoint.url
-        let submitResult = await axios.post(url,bundle)
 
+        let submitResult = await axios.post(url,bundle)
+        console.log(submitResult)
 
 
         //let r = await  database.collection("labRequests").find(filter).toArray()

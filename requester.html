@@ -89,56 +89,71 @@
                         {{commonSvc.getPatientName(entry.resource)}}
                     </li>
                 </ul>
-
-
             </div>
-            <div class="col-md-5" ng-show="selectedPatient">
-
-                <div class="row">
-                    <div class="col-md-8">
-                        <select ng-model="selectedTemplate" class="form-control"
-                                placeholder="Select form"
-                                ng-change="selectQ(selectedTemplate)"
-                                ng-options = "item.display for item in templates">
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <button class="btn btn-primary" ng-click="submitRequest()">Send request</button>
-                    </div>
-                </div>
-
-                <pre ng-show="oo">{{oo | json}}</pre>
-
-
-                <div ng-hide="oo">
-                    <ng-include src="'/includes/formDisplay.html'"></ng-include>
-                </div>
-
-            </div>
-            <div class="col-md-5" ng-show="selectedPatient">
+            <div class="col-md-10" ng-show="selectedPatient">
 
                 <uib-tabset>
-                    <uib-tab heading="Text">
-                        <ng-include src="'/includes/QRdisplay.html'"></ng-include>
+                    <uib-tab heading="New request">
+                        <br/>
+                        <div class="row">
+                            <div class="col-md-6" >
+
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <select ng-model="selectedTemplate" class="form-control"
+                                                placeholder="Select form"
+                                                ng-change="selectQ(selectedTemplate)"
+                                                ng-options = "item.display for item in templates">
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button class="btn btn-primary" ng-click="submitRequest()">Send request</button>
+                                    </div>
+                                </div>
+
+                                <pre ng-show="oo">{{oo | json}}</pre>
+
+
+                                <div ng-hide="oo">
+                                    <ng-include src="'/includes/formDisplay.html'"></ng-include>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6" ng-show="selectedPatient">
+
+                                <uib-tabset>
+                                    <uib-tab heading="Text">
+                                        <ng-include src="'/includes/QRdisplay.html'"></ng-include>
+                                    </uib-tab>
+                                    <uib-tab heading="QR">
+                                        <pre>{{QR | json}}</pre>
+                                    </uib-tab>
+                                    <uib-tab heading="SR">
+                                        <pre>{{SR | json}}</pre>
+                                    </uib-tab>
+                                    <uib-tab heading="Bundle">
+                                        <pre>{{bundle | json}}</pre>
+                                    </uib-tab>
+                                </uib-tabset>
+
+
+                                <!--
+                                <button class="btn btn-danger pull-right" ng-click="sendRequest()">Send dummy request</button>
+
+                -->
+
+
+
+
+
+                            </div>
+                        </div>
                     </uib-tab>
-                    <uib-tab heading="QR">
-                        <pre>{{QR | json}}</pre>
-                    </uib-tab>
-                    <uib-tab heading="SR">
-                        <pre>{{SR | json}}</pre>
-                    </uib-tab>
-                    <uib-tab heading="Bundle">
-                        <pre>{{bundle | json}}</pre>
+                    <uib-tab heading="Previous history">
+                        <br/>
+                        <ng-include src="'/includes/SRSummary.html'"></ng-include>
                     </uib-tab>
                 </uib-tabset>
-
-
-                <!--
-                <button class="btn btn-danger pull-right" ng-click="sendRequest()">Send dummy request</button>
-
--->
-
-
 
 
 

@@ -1,0 +1,63 @@
+
+
+<div class="row">
+    <div class="col-md-4">
+        <table class="table table-bordered">
+            <tr><th>Id</th><th>Code</th><th>Authored</th><th>Status</th></tr>
+            <tr ng-repeat="entry in allSRonePatient.entry"
+                style="cursor: pointer"
+                ng-class="{listItemSelected:selectedSR == entry.resource }"
+                ng-click="selectHistoricalSR(entry.resource)">
+                <td>{{entry.resource.id}}</td>
+                <td>{{entry.resource.code.text}}</td>
+                <td>{{entry.resource.authoredOn}}</td>
+                <td>{{entry.resource.status}}</td>
+            </tr>
+        </table>
+
+    </div>
+    <div class="col-md-8">
+        <uib-tabset>
+            <uib-tab heading="Text">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <ng-include src="'/includes/QRdisplay.html'"></ng-include>
+                    </div>
+                    <div class="col-md-6">
+                        <ng-include src="'/includes/reportdisplay.html'"></ng-include>
+                    </div>
+                </div>
+
+                <!--
+                <uib-tabset>
+                    <uib-tab heading = "Request">
+
+                    </uib-tab>
+                    <uib-tab heading = "Report">
+
+                    </uib-tab>
+                </uib-tabset>
+-->
+
+
+            </uib-tab>
+            <uib-tab heading="SR">
+                <pre>{{selectedSR | json}}</pre>
+            </uib-tab>
+            <uib-tab heading="QR">
+                <pre>{{selectedQR | json}}</pre>
+            </uib-tab>
+            <uib-tab heading="DR & Obs">
+                <pre>{{selectedDRobject | json}}</pre>
+            </uib-tab>
+
+
+        </uib-tabset>
+
+
+    </div>
+</div>
+
+
+
