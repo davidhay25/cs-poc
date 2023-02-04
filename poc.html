@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base href="/">
+    <meta charset="UTF-8">
+    <title>CanShare POC</title>
+
+    <script src="js/libs/jquery-1.9.0.min.js"></script>
+    <script src="js/libs/angular.min1-5.js"></script>
+    <script src="js/libs/ui-bootstrap-tpls-2.0.1.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/common.css"/>
+
+    <script>
+        angular.module("pocApp",['ui.bootstrap']).config(function($locationProvider) {
+
+            // enable html5Mode for pushstate ('#'-less URLs)
+            $locationProvider.html5Mode(true);
+            $locationProvider.hashPrefix('!');
+        });
+
+
+    </script>
+
+    <style>
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .middle {
+            margin-top: 60px;
+        }
+
+    </style>
+
+
+    <script src="js/frontCtrl.js"></script>
+
+
+</head>
+<body style="padding: 8px;padding-top: 80px">
+<div ng-app="pocApp" ng-controller="frontCtrl" class="container-fluid">
+
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+
+        <div class="container-fluid">
+            <div class="col-md-5 col-sm-5">
+                    <span>
+                        <a class="navbar-brand" href="#">
+                            CanShare Proof of Concept
+                        </a>
+                    </span>
+
+            </div>
+
+            <div class="col-md-2 col-sm-2">
+                <div class="navbar-text">
+
+
+
+                </div>
+
+            </div>
+
+            <div class="col-md-1 col-sm-1">
+                <form class="navbar-form navbar-left">
+                    <img ng-show="showWaiting" src="css/ajax_loader_blue_32.gif"/>
+
+                </form>
+            </div>
+
+            <div class="col-md-1 col-sm-1">
+
+            </div>
+
+            <div class="col-md-3">
+                <a href="https://teaho.govt.nz/" target="_blank">
+                    <img width="150" height="auto" class="pull-right"
+                         style="padding: 3px"
+                         src="images/TAK-logo-midgreen.png"/>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="alert alert-info"><div class="text-center">Requester</div></div>
+            <div class="middle">
+
+                <p>Represents the app making a Structured Pathology request</p>
+                <br/> <br/> <br/> <br/>
+                <div class="text-center">
+                    <a href="requester.html" target="_blank" class="btn btn-primary ">Launch example Requester (EHR)</a>
+                </div>
+
+                <br/> <br/> <br/> <br/><br/> <br/>
+
+                <div>
+
+
+
+                    <div>
+                        <a target="_blank" href="https://docs.google.com/document/d/1jZxz0yos99vX2LN9Ncy8ftyk6U-zaZE80aT00cyRHto/edit">
+                            What is CanShare
+                        </a>
+                    </div>
+                    <div>
+                        <a target="_blank" href="https://docs.google.com/document/d/1IuIAwPNkbAS5zuqySl4sBy1Q36ryYjjihIHRfMi2bjg/edit">
+                            Description of Proof Of Concept
+                        </a>
+                    </div>
+                    <div>
+                        <a target="_blank" href="https://docs.google.com/document/d/1WXzU4ArqeCsaZ280TJgBZkcx6kpPMEvxBxI-cYP3O2g/edit">
+                            Technical details of Reference Implementation
+                        </a>
+                    </div>
+                    <div>
+                        <a target="_blank" href="">
+                            POC Implementation Guide
+                        </a>
+                    </div>
+                    <div>
+                        <a target="_blank" href="http://build.fhir.org/ig/davidhay25/actnow/branches/main/index.html">
+                            ACT-NOW Implementation Guide
+                        </a>
+                    </div>
+                    <div>
+                        <a target="_blank" href="http://hl7.org/fhir/">
+                            FHIR Specification
+                        </a>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+        <div class="col-md-6">
+            <br/>
+            <div class="text-center">
+                <a href="monitor.html" target="_blank" class="btn btn-primary">System monitor</a>
+            </div>
+            <br/> <br/>
+            <img src="images/lab-4.png"/>
+            <br/>
+            <div class="text-center">
+                <a href="http://clinfhir.com/query.html" target="_blank" class="btn btn-primary">Query FHIR server</a>
+            </div>
+
+        </div>
+        <div class="col-md-3">
+            <div class="alert alert-info"><div class="text-center">Laboratory</div></div>
+            <div class="middle">
+
+
+                <p>Represents the Laboratory processing the request</p>
+
+                <br/> <br/> <br/> <br/>
+                <div class="text-center">
+                    <a href="lab.html" target="_blank" class="btn btn-primary">Launch example Lab</a>
+                </div>
+                <br/> <br/> <br/> <br/>
+
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row" ng-show="false">
+        <div class="col-md-3">
+            <div>
+                <a target="_blank" href="https://docs.google.com/document/d/1IuIAwPNkbAS5zuqySl4sBy1Q36ryYjjihIHRfMi2bjg/edit">
+                    Description of Proof Of Concept
+                </a>
+            </div>
+            <div>
+                <a target="_blank" href="https://docs.google.com/document/d/1WXzU4ArqeCsaZ280TJgBZkcx6kpPMEvxBxI-cYP3O2g/edit">
+                    Technical details of Reference Implementation
+                </a>
+            </div>
+            <div>
+                <a target="_blank" href="">
+                    Implementation Guide
+                </a>
+            </div>
+            <div>
+                <a target="_blank" href="http://hl7.org/fhir/">
+                    FHIR Specification
+                </a>
+            </div>
+        </div>
+        <div class="col-md-6">
+        </div>
+        <div class="col-md-3">
+
+        </div>
+    </div>
+
+</div>
+</body>
